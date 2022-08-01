@@ -317,6 +317,30 @@ public:
     }
 };
 
+/*
+ * This class reduce the dependency of clients on specific managers. This is the only place that is coupled with the different types
+ */
+class FlightsFactory {
+    // We can design this factory in more efficient way: e.g. using map + singleton
+public:
+    static vector<IFlightsManager*> GetManagers() {
+        vector<IFlightsManager*> flights_managers;
+
+        flights_managers.push_back(new TurkishFlighsManager());
+        flights_managers.push_back(new AirCanadaFlightsManager());
+
+        return flights_managers;
+    }
+
+    static IFlightsManager* GetManager(string name) {
+        for (IFlightsManager* mgr : FlightsFactory::GetManagers()) {
+            if (mgr->GetName() == name)
+                return mgr;
+        }
+        return nullptr;
+    }
+};
+
 
 
 
