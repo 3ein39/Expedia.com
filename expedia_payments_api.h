@@ -75,24 +75,97 @@ public:
     virtual ~IPayment() {}
 };
 
+class PayPalPayment : public IPayment {
+private:
+    PayPalOnlinePaymentAPI paypal;
+    PayPalCreditCard card;
+public:
+    virtual void SetUserInfo(string name, string address) {
+        card.name = name;
+        card.address = address;
+    }
 
+    virtual void SetCardInfo(string id, string expiry_date, int ccv){
+        card.id = id;
+        card.expiry_date = expiry_date;
+        card.ccv = ccv;
+    }
 
+    virtual bool MakePayment(double money) {
+        paypal.SetCardInfo(&card);
+        return paypal.MakePayment(money);
+    }
+};
 
+class StripePayment : public IPayment {
+private:
+    StripeCardInfo card;
+    StripeUserInfo user;
+public:
+    // setters
+    virtual void SetUserInfo(string name, string address) {
+        user.name = name;
+        user.address = address;
+    }
 
+    virtual void SetCardInfo(string id, string expiry_date, int ccv) {
+        card.id = id;
+        card.expiry_date = expiry_date;
+    }
 
+    virtual bool MakePayment(double money) {
+        return StripePaymentAPI::WithDrawMoney(user, card, money);
+    }
+};
 
+class SquarePayment : public IPayment {
+private:
+    string name;
+    string address;
+    string id;
+    string expiry_date;
+    int ccv;
 
+    public:
+    virtual void SetUserInfo(string name, string address) {
+        this->name = name;
+        this->address = address;
+    }
 
+    virtual void SetCardInfo(string id, string expiry_date, int ccv) {
+        this->id = id;
+        this->expiry_date = expiry_date;
+        this->ccv = ccv;
+    }
 
+    virtual bool MakePayment(double money) {
+        // this is similar to adapter pattern...
+        // we change format of interface to match another interface
+        json::JSON obj;
+        obj["user_info"] = json::Array(name, address);
+        obj["card_info"]["ID"] = id;
+        obj["card_info"]["DATE"] = expiry_date;
+        obj["card_info"]["CCV"] = ccv;
+        obj["money"] = money;
 
+        ostringstream oss;
+        oss << obj;
+        string json_query = oss.str();
 
+        return SquarePaymentAPI::WithDrawMoney(json_query);
+    }
+};
 
-
-
-
-
-
-
-
+class PaymentFactory {
+public:
+    static IPayment* GetPaymentHelper() {
+        if (true)
+            return new SquarePayment();
+        else if (true)
+            return new PayPalPayment();
+        else
+            return new StripePayment();
+    }
+};
 
 #endif /* EXPEDIA_PAYMENTS_API_H_ */
