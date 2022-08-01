@@ -302,7 +302,7 @@ public:
         // convert
         for (auto & flight_turkey : flights_turkey) {
             Flight flight;
-            flight.SetAirlineName("Turksih Airlines");
+            flight.SetAirLineName("Turksih Airlines");
             flight.SetDateTimeFrom(flight_turkey.datetime_from);
             flight.SetDateTimeTo(flight_turkey.datetime_to);
             flight.SetTotalCost(flight_turkey.cost);
