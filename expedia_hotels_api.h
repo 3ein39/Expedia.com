@@ -8,8 +8,6 @@
 #ifndef EXPEDIA_HOTELS_API_H_
 #define EXPEDIA_HOTELS_API_H_
 
-#include<bits/stdc++.h>
-
 using namespace std;
 
 #include "common_reservation.h"
@@ -199,35 +197,141 @@ public:
     }
 };
 
+class HotelReservation: public Reservation {
+private:
+    HotelRequest request;
+    HotelRoom room;
 
-class IHotelManager {
+public:
+    HotelReservation(const HotelRequest &request, const HotelRoom &room) :
+            request(request), room(room) {
+    }
+
+    virtual HotelReservation* Clone() const override {
+        return new HotelReservation(*this);
+    }
+
+    virtual double TotalCost() const override {
+        return room.GetPricePerNight() * request.GetTotalNights();
+    }
+
+    virtual string ToString() const override {
+        ostringstream oss;
+        oss << "Hotel reservation: " << room.GetHotelName() << ": " << request.GetCity() << " @ " << request.GetCountry() << "\n";
+        oss << "\t" << request.GetFromDate() << " to " << request.GetToDate() << " : " << request.GetTotalNights() << "\n";
+        oss << "\t" << "Adults: " << request.GetAdults() << " children " << request.GetChildren() << "\n";
+        oss << "\tTotal Cost:" << TotalCost() << "\n";
+
+        return oss.str();
+    }
+
+    const HotelRequest& GetRequest() const {
+        return request;
+    }
+
+    const HotelRoom& GetRoom() const {
+        return room;
+    }
+};
+
+class IHotelsManager {
 protected:
     HotelRequest request;
 public:
     virtual string GetName() const = 0;
 
-    virtual void SetHotelRequest(const HotelRequest& request) const = 0;
+    virtual void SetHotelRequest(const HotelRequest& request) {
+        this->request = request;
+    }
 
-    virtual ~IHotelManager() {}
+    virtual vector<HotelRoom> SearchHotelRooms() = 0;
+
+    virtual bool ReserveRoom(const HotelReservation &reservation) const = 0;
+
+
+    virtual ~IHotelsManager() {}
 };
 
+class HiltonHotelsManager : public IHotelsManager {
+private:
 
+public:
+    virtual string GetName() const override {
+        return "Hilton Hotel";
+    }
 
+    virtual vector<HotelRoom> SearchHotelRooms() {
+        vector<HiltonRoom> api_rooms = HiltonHotelAPI::SearchRooms(request.GetCountry(), request.GetCity(), request.GetFromDate(), request.GetToDate(), request.GetAdults(), request.GetChildren(), request.GetRooms());
+        vector<HotelRoom> rooms;
 
+        for (auto & api_room : api_rooms) {
+            HotelRoom room;
+            room.SetHotelName("Hilton Hotel");
+            room.SetDateFrom(api_room.date_from);
+            room.SetDateTo(api_room.date_to);
+            room.SetPricePerNight(api_room.price_per_night);
+            room.SetAvailableRooms(api_room.available);
+            room.SetRoomType(api_room.room_type);
 
+            rooms.push_back(room);
+        }
+        return rooms;
+    }
 
+    virtual bool ReserveRoom(const HotelReservation& reservation) const /*override*/ {
+        return true;
+    }
+};
 
+class MarriottHotelsManager: public IHotelsManager {
+private:
 
+public:
+    virtual string GetName() const override {
+        return "Marriott Hotel";
+    }
 
+    virtual vector<HotelRoom> SearchHotelRooms() {
+        //string from_date, string to_date, string country, string city, int needed_rooms, int adults, int children
+        vector<MarriottFoundRoom> api_rooms = MarriottHotelAPI::FindRooms(request.GetFromDate(), request.GetToDate(), request.GetCountry(), request.GetCity(), request.GetRooms(), request.GetAdults(), request.GetChildren());
+        vector<HotelRoom> rooms;
 
+        for (auto & api_room : api_rooms) {
+            HotelRoom room;
+            room.SetHotelName("Marriott Hotel");
+            room.SetDateFrom(api_room.date_from);
+            room.SetDateTo(api_room.date_to);
+            room.SetPricePerNight(api_room.price_per_night);
+            room.SetAvailableRooms(api_room.available);
+            room.SetRoomType(api_room.room_type);
 
+            rooms.push_back(room);
+        }
+        return rooms;
+    }
+    virtual bool ReserveRoom(const HotelReservation &reservation) const /*override*/{
+        return true;
+    }
+};
 
+class HotelsFactory {
+public:
+    static vector<IHotelsManager*> GetManagers() {
+        vector<IHotelsManager*> managers;
 
+        managers.push_back(new HiltonHotelsManager());
+        managers.push_back(new MarriottHotelsManager());
 
+        return managers;
+    }
 
-
-
-
-
+    static IHotelsManager* GetManager(string name) {
+        for (IHotelsManager* mgr : HotelsFactory::GetManagers()) {
+            if (mgr->GetName() == name)
+                return mgr;
+        }
+        return nullptr;
+    }
+};
 
 #endif /* EXPEDIA_HOTELS_API_H_ */
