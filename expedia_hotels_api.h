@@ -200,6 +200,17 @@ public:
 };
 
 
+class IHotelManager {
+protected:
+    HotelRequest request;
+public:
+    virtual string GetName() const = 0;
+
+    virtual void SetHotelRequest(const HotelRequest& request) const = 0;
+
+    virtual ~IHotelManager() {}
+};
+
 
 
 
