@@ -12,6 +12,8 @@
 using namespace std;
 
 #include <string>
+#include <vector>
+#include<iomanip>
 #include "common_reservation.h"
 
 class AirCanadaCustomerInfo {
@@ -130,7 +132,7 @@ private:
 
 public:
     // some setters and getters
-    string GetDateTimeFrom() const {
+    string GetDatePartFrom() const {
         return datetime_from;
     }
 
@@ -146,11 +148,11 @@ public:
         this->adults = adults;
     }
 
-    int GetChildern() const {
+    int GetChildren() const {
         return childern;
     }
 
-    void SetChildern(int childern) {
+    void SetChildren(int childern) {
         this->childern = childern;
     }
 
@@ -193,6 +195,7 @@ public:
     void SetTo(const string& to) {
         this->to = to;
     }
+
 };
 
 class FlightReservation : public Reservation{
@@ -248,6 +251,36 @@ public:
     virtual string GetName() const = 0;
 
     virtual ~IFlightsManager() {}
+};
+
+class AirCanadaFlightsManager : public IFlightsManager {
+public:
+    virtual string GetName() const override {
+        return "AirCanada AirLines";
+    }
+
+    virtual vector<Flight> SearchFlights() const override {
+        vector<AirCanadaFlight> flights_aircanada = AirCanadaOnlineAPI::GetFlights(request.GetFrom(), request.GetDatePartFrom(), request.GetTo(), request.GetDatePartTo(), request.GetAdults(), request.GetChildren());
+        vector<Flight> flights;
+
+        // convert
+        // convert
+        for (auto & flight_aircanada : flights_aircanada) {
+            Flight flight;
+            flight.SetAirLineName(GetName());
+            flight.SetDateTimeFrom(flight_aircanada.date_time_from);
+            flight.SetDateTimeTo(flight_aircanada.date_time_to);
+            flight.SetTotalCost(flight_aircanada.price);
+
+            flights.push_back(flight);
+        }
+        return flights;
+    }
+
+    virtual bool ReserveFlight(const FlightReservation& reservation) const override {
+        // Just dummy. We should map from reservation to the agency api
+        return AirCanadaOnlineAPI::ReserveFlight(AirCanadaFlight(), AirCanadaCustomerInfo());
+    }
 };
 
 
