@@ -118,4 +118,80 @@ public:
     }
 };
 
+class FlightRequest {
+private:
+    string datetime_from;
+    string from;
+    string datetime_to;
+    string to;
+    int infants;
+    int childern;
+    int adults;
+
+public:
+    // some setters and getters
+    string GetDateTimeFrom() const {
+        return datetime_from;
+    }
+
+    string GetDatePartTo() const {
+        return datetime_to;
+    }
+
+    int GetAdults() const {
+        return adults;
+    }
+
+    void SetAdults(int adults) {
+        this->adults = adults;
+    }
+
+    int GetChildern() const {
+        return childern;
+    }
+
+    void SetChildern(int childern) {
+        this->childern = childern;
+    }
+
+    const string& GetDatetimeFrom() const {
+        return datetime_from;
+    }
+
+    void SetDatetimeFrom(const string& datetime_from) {
+        this->datetime_from = datetime_from;
+    }
+
+    const string& GetDatetimeTo() const {
+        return datetime_to;
+    }
+
+    void SetDatetimeTo(const string& datetime_to) {
+        this->datetime_to = datetime_to;
+    }
+
+    const string& GetFrom() const {
+        return from;
+    }
+
+    void SetFrom(const string& from) {
+        this->from = from;
+    }
+
+    int GetInfants() const {
+        return infants;
+    }
+
+    void SetInfants(int infants) {
+        this->infants = infants;
+    }
+
+    const string& GetTo() const {
+        return to;
+    }
+
+    void SetTo(const string& to) {
+        this->to = to;
+    }
+};
 #endif /* EXPEDIA_FLIGHTS_API_H_ */
