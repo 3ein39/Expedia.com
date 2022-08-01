@@ -232,4 +232,47 @@ public:
         return flight;
     }
 };
+
+class IFlightsManager {
+protected:
+    FlightRequest request;
+public:
+    virtual void SetFlightRequest(const FlightRequest& request) {
+        this->request = request;
+    }
+
+    virtual vector<Flight> SearchFlights() const = 0;
+
+    virtual bool ReserveFlight(const FlightReservation& reservation) const = 0;
+
+    virtual string GetName() const = 0;
+
+    virtual ~IFlightsManager() {}
+};
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 #endif /* EXPEDIA_FLIGHTS_API_H_ */
