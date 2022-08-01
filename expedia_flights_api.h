@@ -283,7 +283,39 @@ public:
     }
 };
 
+class TurkishFlighsManager: public IFlighsManager {
+private:
+public:
+    virtual string GetName() const override {
+        return "Turksih Airlines";
+    }
 
+    virtual vector<Flight> SearchFlights() const override {
+        TurkishAirlinesOnlineAPI api;
+
+        api.SetFromToInfo(request.GetDatetimeFrom(), request.GetFrom(), request.GetDatetimeTo(), request.GetTo());
+        api.SetPassengersInfo(request.GetInfants(), request.GetChildren(), request.GetAdults());
+
+        vector<TurkishFlight> flights_turkey = api.GetAvailableFlights();
+        vector<Flight> flights;
+
+        // convert
+        for (auto & flight_turkey : flights_turkey) {
+            Flight flight;
+            flight.SetAirlineName("Turksih Airlines");
+            flight.SetDateTimeFrom(flight_turkey.datetime_from);
+            flight.SetDateTimeTo(flight_turkey.datetime_to);
+            flight.SetTotalCost(flight_turkey.cost);
+
+            flights.push_back(flight);
+        }
+        return flights;
+    }
+    virtual bool ReserveFlight(const FlightReservation &reservation) const {
+        // Just dummy. We should map from reservation to the agency api
+        return TurkishAirlinesOnlineAPI::ReserveFlight(TurkishCustomerInfo(), TurkishFlight());
+    }
+};
 
 
 
