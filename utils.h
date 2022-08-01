@@ -5,10 +5,9 @@
 #ifndef EXPEDIA_COM_UTILS_H
 #define EXPEDIA_COM_UTILS_H
 
-#include<iostream>
 #include<chrono> // for date and time src : https://stackoverflow.com/questions/17223096/outputting-date-and-time-in-c-using-stdchrono
-#include<vector>
 #include<iomanip>
+#include<cassert>
 using namespace std;
 
 // some utilities for the project
