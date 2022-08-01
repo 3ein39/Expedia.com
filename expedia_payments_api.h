@@ -16,6 +16,11 @@ using namespace std;
 using namespace json;
 
 
+// Below: What we did with flights and payments satisfy Dependency inversion principle
+// High-level modules (expedia.com) should not depend on low-level modules (AirCandaAirlines/PaypalPayment APIs).
+// Both should depend on abstractions (e.g. IFlighsFinder and IPayment).
+// That is the power of interfaces BTW ;)
+
 class PayPalCreditCard {
 public:
 	string name;
@@ -61,6 +66,33 @@ public:
 		return true;
 	}
 };
+
+class IPayment {
+public:
+    virtual void SetUserInfo(string name, string address) = 0;
+    virtual void SetCardInfo(string id, string expiry_date, int ccv) = 0;
+    virtual bool MakePayment(double money) = 0;
+    virtual ~IPayment() {}
+};
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 #endif /* EXPEDIA_PAYMENTS_API_H_ */
