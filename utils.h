@@ -5,6 +5,12 @@
 #ifndef EXPEDIA_COM_UTILS_H
 #define EXPEDIA_COM_UTILS_H
 
+#include<iostream>
+#include<chrono> // for date and time src : https://stackoverflow.com/questions/17223096/outputting-date-and-time-in-c-using-stdchrono
+#include<vector>
+#include<iomanip>
+using namespace std;
+
 // some utilities for the project
 int ReadInt(int min, int max, bool cancel_choice_allowed = false) {
     if (!cancel_choice_allowed)
@@ -34,10 +40,10 @@ int ShowReadMenu(const vector<string> &choices, string header = "Menu") {
 }
 
 // get current time and date
-string GetCurrentTimeDate() {   // src: https://stackoverflow.com/questions/17223096/outputting-date-and-time-in-c-using-stdchrono
+string GetCurrentTimeDate() {
     auto now = std::chrono::system_clock::now();
     auto in_time_t = std::chrono::system_clock::to_time_t(now);
-    
+
     std::stringstream ss;
     ss << std::put_time(std::localtime(&in_time_t), "%Y-%m-%d %X");
     return ss.str();
