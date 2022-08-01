@@ -69,7 +69,7 @@ private:
 
 public:
     // printing
-    void ToString() const {
+    string ToString() const {
         ostringstream oss;
         oss << "Hotel: " << hotel_name << " Room Type: " << room_type << "(" << available_rooms << ") Price per night: " << price_per_night << " From Date " << date_from << " to " << date_to << "";
         return oss.str();
@@ -125,7 +125,79 @@ public:
     }
 };
 
+class  HotelRequest {
+private:
+    string from_date;
+    string to_date;
+    string country;
+    string city;
+    int rooms;
+    int adults;
+    int children;
 
+public:
+    // some setters and geeters
+    int GetTotalNights() const {
+        // some data computations
+        return 3;
+    }
+
+    int GetAdults() const {
+        return adults;
+    }
+
+    void SetAdults(int adults) {
+        this->adults = adults;
+    }
+
+    int GetChildren() const {
+        return children;
+    }
+
+    void SetChildren(int children) {
+        this->children = children;
+    }
+
+    const string& GetCity() const {
+        return city;
+    }
+
+    void SetCity(const string& city) {
+        this->city = city;
+    }
+
+    const string& GetCountry() const {
+        return country;
+    }
+
+    void SetCountry(const string& country) {
+        this->country = country;
+    }
+
+    const string& GetFromDate() const {
+        return from_date;
+    }
+
+    void SetFromDate(const string& from_date) {
+        this->from_date = from_date;
+    }
+
+    int GetRooms() const {
+        return rooms;
+    }
+
+    void SetRooms(int rooms) {
+        this->rooms = rooms;
+    }
+
+    const string& GetToDate() const {
+        return to_date;
+    }
+
+    void SetToDate(const string& to_date) {
+        this->to_date = to_date;
+    }
+};
 
 
 
