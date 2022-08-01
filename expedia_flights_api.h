@@ -283,7 +283,7 @@ public:
     }
 };
 
-class TurkishFlighsManager: public IFlighsManager {
+class TurkishFlighsManager: public IFlightsManager {
 private:
 public:
     virtual string GetName() const override {
