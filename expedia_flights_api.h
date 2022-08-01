@@ -11,6 +11,8 @@
 
 using namespace std;
 
+#include <string>
+#include "common_reservation.h"
 
 class AirCanadaCustomerInfo {
 
@@ -65,6 +67,55 @@ public:
 	static bool ReserveFlight(const TurkishCustomerInfo &info, const TurkishFlight& flight) {
 		return false;
 	}
+};
+
+class Flight {
+private:
+    string airline_name;
+    double total_cost = 0;
+    string date_time_from;
+    string date_time_to;
+
+public:
+    // printing
+    string ToString() const {
+        ostringstream oss;
+        oss << "Airline: " << airline_name << " Cost: " << total_cost << " Departure Date " << date_time_from << " Arrival Date " << date_time_to;
+        return oss.str();
+    }
+
+    // setters and getters
+    const string& GetDateTimeFrom() const {
+        return date_time_from;
+    }
+
+    void SetDateTimeFrom(const string& date_time_from) {
+        this->date_time_from = date_time_from;
+    }
+
+    const string& GetDateTimeTo() const {
+        return date_time_to;
+    }
+
+    void SetDateTimeTo(const string& date_time_to) {
+        this->date_time_to = date_time_to;
+    }
+
+    double GetTotalCost() const {
+        return total_cost;
+    }
+
+    void SetTotalCost(double total_cost) {
+        this->total_cost = total_cost;
+    }
+
+    const string& GetAirlineName() const {
+        return airline_name;
+    }
+
+    void SetAirLineName(const string& airline_name) {
+        this->airline_name = airline_name;
+    }
 };
 
 #endif /* EXPEDIA_FLIGHTS_API_H_ */
