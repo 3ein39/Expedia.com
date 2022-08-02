@@ -8,9 +8,9 @@
 #include <sstream>
 using namespace std;
 
-#include "expedia_payment_card.h"
-#include "expedia_common_reservation.h"
-#include "expedia_user.h"
+#include "payment_card.h"
+#include "common_reservation.h"
+#include "user.h"
 
 class Customer: public User {
     protected:
@@ -24,7 +24,7 @@ class Customer: public User {
 
     // Deafult constructor
     Customer() {
-        SetType(UserType::CusomterUser);
+        SetType(UserType::CustomerUser);
     }
 
     // Destructor

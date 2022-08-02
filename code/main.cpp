@@ -61,6 +61,7 @@ int main() {
     site.Run();
 
     User* user = new Customer();
+    dynamic_cast<Customer*>(user);
 
 
     return 0;
