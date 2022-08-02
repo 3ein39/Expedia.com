@@ -11,8 +11,6 @@
 #include "utils.h"
 #include "user.h"
 #include "expedia_hotels_api.h"
-#include<bits/stdc++.h>
-using namespace std;
 
 class ExpediaBackend {
 private:
