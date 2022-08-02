@@ -55,8 +55,8 @@ public:
     username_userobject_map[admin_user->GetUserName()] = admin_user;
 
     Customer* customer_user = new Customer();
-    customer_user->SetUserName("hany");
-    customer_user->SetPassword("222");
+    customer_user->SetUserName("user");
+    customer_user->SetPassword("111");
     customer_user->SetEmail("hany@gmail.com");
     customer_user->SetName("Hany Hussien Ahmed");
 
