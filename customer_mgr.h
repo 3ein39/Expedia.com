@@ -11,7 +11,6 @@ using namespace std;
 #include"payment_card.h"
 #include"common_reservation.h"
 #include"customer.h"
-#include<bits/stdc++.h>
 
 class CustomerManager {
 private:
