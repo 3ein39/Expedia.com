@@ -11,11 +11,6 @@
 
 using namespace std;
 
-#include <string>
-#include <vector>
-#include<iomanip>
-#include "common_reservation.h"
-
 class AirCanadaCustomerInfo {
 
 };
