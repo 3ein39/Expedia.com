@@ -81,7 +81,7 @@ public:
         const ReservationsSet& set = customer->GetReservations();
         vector<string> itineraries;
 
-        for(const Reservation* reservation : set.GetReservations)
+        for(const Reservation* reservation : set.GetReservations())
             itineraries.push_back(reservation->ToString());
 
         return itineraries;
