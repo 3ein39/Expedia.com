@@ -15,7 +15,7 @@ using namespace std;
 class UsersManager {
 protected:
     User* current_user = nullptr;
-    map<string, User> username_userobject_map;
+    map<string, User*> username_userobject_map;
 
     void FreeLoadedData() {
         for (auto pair : username_userobject_map) {
