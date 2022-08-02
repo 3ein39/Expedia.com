@@ -42,7 +42,7 @@ public:
 
         while (true) {
             users_manager->AccessSystem(); // login/signup
-
+            // the code focus on the customer view only
             if(users_manager->GetCurrentUser()->GetType() == UserType::CustomerUser) {
                 customer_manager = new CustomerManager(users_manager->GetCurrentUser(), *expedia_manager);
                 CustomerView view(*customer_manager);
