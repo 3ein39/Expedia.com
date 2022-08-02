@@ -43,7 +43,7 @@ public:
         while (true) {
             users_manager->AccessSystem(); // login/signup
 
-            if(users_manager->GetCurrentUser()->GetType() == UserType::CusomterUser) {
+            if(users_manager->GetCurrentUser()->GetType() == UserType::CustomerUser) {
                 customer_manager = new CustomerManager(users_manager->GetCurrentUser(), *expedia_manager);
                 CustomerView view(*customer_manager);
                 view.Display();
@@ -61,7 +61,7 @@ int main() {
     site.Run();
 
     User* user = new Customer();
-    // dynamic_cast<Customer*>(user);
+
 
     return 0;
 }
